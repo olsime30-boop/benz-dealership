@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mercedes-Benz Dealership Inventory</title>
+<style>
+  /* Reset & base */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f7;
+    color: #222;
+  }
+  header {
+    background: #000;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  header img { height: 40px; }
+  header h1 { color: white; font-weight: 700; font-size: 1.8rem; }
+  main {
+    padding: 30px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h2 {
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #111;
+    border-bottom: 3px solid #d6aa00;
+    padding-bottom: 10px;
+  }
+  .inventory {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(340px,1fr));
+    gap: 30px;
+  }
+  .car-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 22px rgb(0 0 0 / 0.12);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease;
+  }
+  .car-card:hover { transform: scale(1.03); }
+  .car-image { width: 100%; height: 210px; object-fit: cover; }
+  .car-info {
+    padding: 18px 20px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .car-info h3 { margin: 0 0 5px 0; font-weight: 700; color: #222; }
+  .car-price {
+    font-weight: 700;
+    color: #d6aa00;
+    margin-bottom: 10px;
+  }
+  .car-info p {
+    flex-grow: 1;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.3;
+  }
+  .details-button {
+    margin-top: 15px;
+    align-self: flex-start;
+    padding: 9px 16px;
+    border: none;
+    background-color: #d6aa00;
+    color: black;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+  }
+  .details-button:hover { background-color: #b68a00; }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+    z-index: 1000;
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: white;
+    border-radius: 14px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 25px 30px;
+    position: relative;
+    box-shadow: 0 14px 38px rgb(0 0 0 / 0.3);
+  }
+  .modal-content img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  .modal-content h3 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+  .modal-price {
+    font-weight: 700;
+    color: #d6aa00;
+    margin-bottom: 15px;
+  }
+  .modal-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #777;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+  }
+  .modal-close:hover { color: #000; }
+
+  @media (max-width: 600px) {
+    main { padding: 20px 15px; }
+    .car-card { flex-direction: column; }
+    .car-image { height: 180px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://cdn.vectorstock.com/i/1000v/03/74/mercedes-benz-brand-logo-symbol-with-name-white-vector-46100374.jpg" />
+  <h1>Mercedes-Benz Dealership Inventory</h1>
+</header>
+
+<main>
+  <h2>Explore Our Premium Mercedes-Benz Models</h2>
+  <div class="inventory">
+
+    <!-- S-Class -->
+    <div class="car-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz3Ou8Tbe678E6SjWKZ5Kh_UupRmzZPCutpw&s" alt="S-Class Luxury Sedan" class="car-image" />
+      <div class="car-info">
+        <h3>S-Class Luxury Sedan</h3>
+        <div class="car-price">$110,000</div>
+        <p>The epitome of luxury, technology, and performance. The S-Class offers supreme comfort with advanced driver assistance and plush interiors.</p>
+        <button class="details-button" data-model="sclass">More Details</button>
+      </div>
+    </div>
+
+    <!-- EQE Electric Sedan -->
+    <div class="car-card">
+      <img src="https://hips.hearstapps.com/hmg-prod/images/2023-mercedes-benz-eqe-350-127-1649789873.jpg?crop=0.796xw:0.795xh;0.0641xw,0.205xh&resize=1200:*" alt="EQE Electric Sedan" class="car-image" />
+      <div class="car-info">
+        <h3>EQE Electric Sedan</h3>
+        <div class="car-price">$75,000</div>
+        <p>Fully electric luxury sedan with a sleek design, impressive range, and state-of-the-art technology for sustainable performance.</p>
+        <button class="details-button" data-model="eqe">More Details</button>
+      </div>
+    </div>
+
+    <!-- C-Class Sedan -->
+    <div class="car-card">
+      <img src="https://di-uploads-pod1.dealerinspire.com/mercedesbenzofcherryhill/uploads/2021/07/7-9-cclass.jpg" alt="C-Class Sedan" class="car-image" />
+      <div class="car-info">
+        <h3>C-Class Sedan</h3>
+        <div class="car-price">$55,000</div>
+        <p>A compact executive sedan balancing style, comfort, and driving dynamics with a range of powertrains and luxurious features.</p>
+        <button class="details-button" data-model="cclass">More Details</button>
+      </div>
+    </div>
+
+    <!-- E-Class Sedan -->
+    <div class="car-card">
+      <img src="https://autodesignmagazine.com/wp-content/uploads/2023/04/23C0129_003.jpg" alt="E-Class Sedan" class="car-image" />
+      <div class="car-info">
+        <h3>E-Class Sedan</h3>
+        <div class="car-price">$70,000</div>
+        <p>Renowned for its innovation and elegance, the E-Class Sedan delivers a smooth ride with cutting-edge safety and tech features.</p>
+        <button class="details-button" data-model="eclass">More Details</button>
+      </div>
+    </div>
+
+    <!-- GLE SUV -->
+    <div class="car-card">
+      <img src="https://di-uploads-pod13.dealerinspire.com/mercedesbenzofeaston/uploads/2023/08/2308-Mercedes-Benz-GLE-SUV.jpg" alt="GLE SUV" class="car-image" />
+      <div class="car-info">
+        <h3>GLE SUV</h3>
+        <div class="car-price">$80,000</div>
+        <p>A mid-size luxury SUV combining powerful performance, spacious interiors, and cutting-edge tech for the whole family.</p>
+        <button class="details-button" data-model="gle">More Details</button>
+      </div>
+    </div>
+
+    <!-- GLS SUV -->
+    <div class="car-card">
+      <img src="https://di-uploads-pod7.dealerinspire.com/autohausonedens/uploads/2019/07/GLS.jpg" alt="GLS SUV" class="car-image" />
+      <div class="car-info">
+        <h3>GLS SUV</h3>
+        <div class="car-price">$100,000</div>
+        <p>The flagship full-size SUV offering three rows of luxury seating, supreme comfort, and advanced off-road capability.</p>
+        <button class="details-button" data-model="gls">More Details</button>
+      </div>
+    </div>
+
+    <!-- G-Class SUV -->
+    <div class="car-card">
+      <img src="https://hips.hearstapps.com/hmg-prod/images/2025-mercedes-benz-g550-174-67d300d314cb6.jpg?crop=0.694xw:0.587xh;0.131xw,0.236xh&resize=1200:*" alt="G-Class SUV" class="car-image" />
+      <div class="car-info">
+        <h3>G-Class SUV</h3>
+        <div class="car-price">$140,000</div>
+        <p>Iconic luxury off-roader with rugged design, supreme craftsmanship, and powerful performance for all terrains.</p>
+        <button class="details-button" data-model="gclass">More Details</button>
+      </div>
+    </div>
+
+    <!-- AMG GT Coupe -->
+    <div class="car-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT95cKZ6I0onuqw9zJg7C40Nf0f7Tu0uK8uCA&s" alt="AMG GT Coupe" class="car-image" />
+      <div class="car-info">
+        <h3>AMG GT Coupe</h3>
+        <div class="car-price">$150,000</div>
+        <p>A high-performance sports coupe engineered for speed, precision handling, and breathtaking design.</p>
+        <button class="details-button" data-model="amggt">More Details</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Modal for details -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <img id="modalImg" src="" alt="Car Image" />
+    <h3 id="modalTitle">Title</h3>
+    <div class="modal-price" id="modalPrice">$0</div>
+    <p id="modalDesc">Description</p>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modalImg");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDesc = document.getElementById("modalDesc");
+  const modalPrice = document.getElementById("modalPrice");
+  const modalClose = document.getElementById("modalClose");
+
+  const carsDetails = {
+    sclass: { title:"S-Class Luxury Sedan", img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/2021_Mercedes-Benz_S-Class_350d_3.0_Front.jpg", desc:`The Mercedes-Benz S-Class is the flagship luxury sedan, offering unparalleled comfort, cutting-edge technology, and exceptional craftsmanship. It features the latest driver-assistance systems, a refined interior with high-end materials, and powerful engine options including hybrid and AMG variants. Ideal for executives and luxury seekers who demand the best in class.`, price:"$110,000" },
+    eqe: { title:"EQE Electric Sedan", img:"https://upload.wikimedia.org/wikipedia/commons/1/17/Mercedes-Benz_EQE_350%2B_AMG_Line_IMG_0960.jpg", desc:`The EQE is part of Mercedes-Benz's electric vehicle lineup, boasting a sleek, aerodynamic design and advanced electric powertrain technology. It offers long-range driving capability, rapid charging, and an ultra-modern interior featuring the MBUX Hyperscreen infotainment system, combining sustainability with luxury.`, price:"$75,000" },
+    cclass: { title:"C-Class Sedan", img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Mercedes-Benz_C-Class_W206_IMG_0260.jpg", desc:`The C-Class is a compact executive sedan that delivers a perfect balance between performance, style, and comfort. It features a range of turbocharged engines, luxurious interiors, and innovative safety technologies, making it a favorite for drivers who want Mercedes-Benz quality in a smaller package.`, price:"$55,000" },
+    eclass: { title:"E-Class Sedan", img:"https://upload.wikimedia.org/wikipedia/commons/9/9b/2021_Mercedes-Benz_E_350_4MATIC_–_NHTSA_02.jpg", desc:`The E-Class is known for its blend of elegance and advanced technology. It offers a smooth ride, semi-autonomous driving capabilities, and high-quality interior materials. It's ideal for those looking for a versatile executive sedan with premium features and comfort.`, price:"$70,000" },
+    gle: { title:"GLE SUV", img:"https://upload.wikimedia.org/wikipedia/commons/0/0a/2020_Mercedes-Benz_GLE_450_4MATIC_2.jpg", desc:`The GLE is a mid-size luxury SUV that provides strong performance, spacious and flexible interiors, and state-of-the-art infotainment and safety features. Perfect for families and adventurers seeking comfort and versatility.`, price:"$80,000" },
+    gls: { title:"GLS SUV", img:"https://upload.wikimedia.org/wikipedia/commons/1/14/2020_Mercedes-Benz_GLS_450_4MATIC_AMG_Line_2.jpg", desc:`The GLS is the flagship full-size SUV with three rows of luxury seating, advanced technology, and off-road capability. It combines power with comfort, making it ideal for larger families and those needing more space.`, price:"$100,000" },
+    gclass: { title:"G-Class SUV", img:"https://upload.wikimedia.org/wikipedia/commons/f/f3/Mercedes-Benz_G-Class_W464_IMG_0007.jpg", desc:`The G-Class is the iconic luxury off-road vehicle known for its rugged design, advanced off-road systems, and a high-quality interior. It’s a status symbol with unparalleled all-terrain capabilities.`, price:"$140,000" },
+    amggt: { title:"AMG GT Coupe", img:"https://upload.wikimedia.org/wikipedia/commons/9/99/2020_Mercedes-AMG_GT_R_Pro_IMG_0832.jpg", desc:`The AMG GT Coupe is a high-performance sports car engineered for speed, agility, and dynamic driving experience. It features a handcrafted V8 engine, aerodynamic design, and premium sport-focused interiors.`, price:"$150,000" }
+  };
+
+  document.querySelectorAll(".details-button").forEach(button => {
+    button.addEventListener("click", () => {
+      const model = button.getAttribute("data-model");
+      const details = carsDetails[model];
+      if (details) {
+        modalTitle.textContent = details.title;
+        modalImg.src = details.img;
+        modalImg.alt = details.title;
+        modalDesc.textContent = details.desc;
+        modalPrice.textContent = details.price;
+        modal.classList.add("active");
+      }
+    });
+  });
+
+  modalClose.addEventListener("click", () => { modal.classList.remove("active"); });
+  modal.addEventListener("click", e => { if(e.target === modal){ modal.classList.remove("active"); } });
+</script>
+
+</body>
+</html>
